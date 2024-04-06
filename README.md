@@ -1,6 +1,6 @@
 # SYS-265-Final
 
-Team Members:  
+**Team Members:**  
 Isaiah Rivers  
 Kcmalinda Hlordsz  
 Morgan Connors  
