@@ -1,0 +1,11 @@
+network:
+  ethernets:
+    ens160:
+      addresses:
+        - 172.16.1.20/24
+      routes:
+        - to: default
+          via: 172.16.1.2
+      nameservers:
+        addresses: [172.16.1.2]
+  version: 2
