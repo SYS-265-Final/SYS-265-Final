@@ -2,6 +2,6 @@
 
 **Team Members:**  
 Isaiah Rivers  
-Kcmalinda Hlordsz  
+KCMalinda Hlordsz  
 Morgan Connors  
   
