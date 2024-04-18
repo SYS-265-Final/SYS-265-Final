@@ -9,4 +9,3 @@
       state: latest
     become: true
     become_user: root
-    become_password: abc123!
