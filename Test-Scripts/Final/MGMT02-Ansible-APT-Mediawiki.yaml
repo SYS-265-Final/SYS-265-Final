@@ -1,0 +1,35 @@
+sudo apt install docker docker-compose -y
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo docker run --name some-mediawiki -p 8080:80 -d mediawiki
+
+- name: Install python3
+  hosts: apt_example
+  remote_user: deployer
+
+  tasks:
+  - name: Ensure docker is at the latest version
+    ansible.builtin.apt:
+      name: docker
+      state: latest
+    become: true
+    become_user: root
+
+  - name: Ensure docker-compose is at the latest version
+    ansible.builtin.apt:
+      name: docker-compose
+      state: latest
+    become: true
+    become_user: root
+
+  - name: Ensure docker-compose is at the latest version
+    ansible.builtin.apt:
+      name: docker-compose
+      state: latest
+    become: true
+    become_user: root
+    
+  - name: Install the mediawiki image on docker
+    ansible-built ?>???? left off here
+    become: true
+    become_user: root
