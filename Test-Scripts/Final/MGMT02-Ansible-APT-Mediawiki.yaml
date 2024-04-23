@@ -5,26 +5,9 @@
   become_user: root
 
     tasks:
-    - name: Ensure docker is at the latest version
+    - name: Install docker
       ansible.builtin.apt:
-        name: docker
-        state: latest
+        name: docker.io
+        state: present
+    become: yes
   
-    - name: Start docker service
-      ansible.builtin.shell: systemctl start docker
-  
-    - name: Enable docker service
-      ansible.builtin.shell: systemctl enable docker
-  
-   - name: Get the media wiki image
-      docker_image:
-        name: mediawiki
-        source: pull
-  
-    - name: Create a docker container
-      docker_container:
-        name: mediawiki_container
-        image: mediawiki
-        ports: 
-          - "8080:80"
-        state: started
