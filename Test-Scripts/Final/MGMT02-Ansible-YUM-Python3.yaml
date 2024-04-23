@@ -6,6 +6,5 @@
   - name: Ensure python3 is at the latest version
     ansible.builtin.yum:
       name: python3
-      state: latest
+      state: present
     become: true
-    become_user: root
