@@ -1,4 +1,4 @@
-- name: Install mediawiki on docker
+- name: Install docker
   hosts: apt_example
   remote_user: deployer
   become: true
