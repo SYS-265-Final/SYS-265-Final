@@ -1,8 +1,16 @@
 - name: create a new user
   hosts: ubuntu
   remote_user: deployer
+  vars:
+    username: test123
+    password: abc123!
 
-  tasks:
-  - name: Create a new user
-    ansible.builtin.shell: useradd test123
-    become: true
+  tasks: 
+    - name: Check User Status
+      user:
+        name: "{{ username }}"
+        password: "{{password | password_hash('sha512', 'mysecretsalt') }}" 
+        shell: /bin/bash
+        createhome: yes
+        state: present
+      become: true
