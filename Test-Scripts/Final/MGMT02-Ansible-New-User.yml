@@ -1,0 +1,8 @@
+- name: create a new user
+  hosts: ubuntu
+  remote_user: deployer
+
+  tasks:
+  - name: Create a new user
+    ansible.builtin.shell: useradd test123
+  become: true
