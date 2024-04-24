@@ -2,11 +2,7 @@
   hosts: ubuntu
   remote_user: deployer
 
-    tasks:
-    - name: Create a new user
-      ansible.builtin.shell: useradd test123
-    become: true
-
-    - name: Set password on new user
-      ansible.builtin.shell: passwd test123
+  tasks:
+  - name: Create a new user
+    ansible.builtin.shell: useradd test123
     become: true
