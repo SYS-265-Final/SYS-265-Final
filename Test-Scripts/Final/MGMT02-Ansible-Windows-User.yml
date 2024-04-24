@@ -1,0 +1,14 @@
+name: Create a new user called bob
+hosts: windows
+remote_user: bickenbuget/bickenbuget-adm
+
+tasks:
+  - name: Create a new domain user
+    microsoft_ad_user:
+      firstname: Test123
+      surname: User
+      password: abc123!
+      state: present
+      domain_username: bickenbuget/test123
+      domain_password: abc123!
+      domain_server: MGMT01@bickenbuget.local
