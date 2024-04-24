@@ -6,7 +6,7 @@
     password: abc123!
 
   tasks: 
-    - name: Check User Status
+    - name: Create user
       user:
         name: "{{ username }}"
         password: "{{password | password_hash('sha512', 'saltySaltine') }}" 
