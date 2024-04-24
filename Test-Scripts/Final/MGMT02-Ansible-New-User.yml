@@ -9,7 +9,7 @@
     - name: Check User Status
       user:
         name: "{{ username }}"
-        password: "{{password | password_hash('sha512', 'mysecretsalt') }}" 
+        password: "{{password | password_hash('sha512', 'saltySaltine') }}" 
         shell: /bin/bash
         createhome: yes
         state: present
