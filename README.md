@@ -5,4 +5,5 @@ Isaiah Rivers
 KCMalinda Hlordsz  
 Morgan Connors  
   
-![image](https://github.com/SYS-265-Final/SYS-265-Final/assets/70920308/cc0a86ce-0d06-402f-97c2-299e151ecfad)
+
+<img width="185" alt="Screen Shot 2024-04-25 at 12 13 29 PM" src="https://github.com/SYS-265-Final/SYS-265-Final/assets/70920308/d0891f87-7dbc-4bb5-b6dc-207586c9603b">
