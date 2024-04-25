@@ -1,0 +1,32 @@
+- name: Add Active Directory User
+  hosts: windows
+  vars_prompt:
+	- name: username
+  	prompt: Username
+  	private: false
+	- name: firstname
+  	prompt: Firstname
+  	private: false
+	- name: surname
+  	prompt: Surname
+  	private: false
+	- name: password
+  	prompt: Password
+  	private: true
+	- name: DomainUser
+  	prompt: DomainUsername (domain\user)
+  	private: false
+	- name: DomainUserPass
+  	prompt: DomainUserPassword
+  	private: true
+- tasks:
+   - name: Create a Domain User
+ 	win_domain_user:
+   	name: "{{Username}}"
+   	firstname: "{{firstname}}"
+   	surname: "{{surname}}"
+   	password: "{{password}}"
+   	state: present
+   	domain_username: "{{DomainUser}}"
+   	domain_password: "{{DomainUserPass}}"
+   	domain_server: bickenbugget.local
