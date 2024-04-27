@@ -1,0 +1,80 @@
+@startuml
+!include <office/Servers/application_server>
+!include <office/Servers/database_server>
+title Team Bicken Bugget's Network Diagram
+nwdiag {
+  
+  Internet [shape = cloud];
+  network WAN {
+  Internet;
+  FW01;
+  address = "10.0.17.77/24"
+  color = "#F00"
+  }
+  
+    
+  group Firewall{
+    color = "#ea0"
+    FW01 [description = "<$database_server>\n**FW01**\nWAN IP: 10.0.17.77\nLAN IP: 172.16.1.2\nServices: pfSense"]
+  }
+  
+  network LAN{
+  FW01;
+  bickenbugget.local
+  address = "172.16.1.2/24"
+  color = "#0F0"
+  }
+  
+  group domainControllers{
+    description = "Active Directory Controllers"
+    color = "pink"
+    DC01;
+    DC02;
+  }
+
+  network Active-Directory-Controllers{
+   color = "FFa"
+   bickenbugget.local;
+   DC01 [description = "<$database_server>\n**DC01**\nIP: 172.16.1.12\nWindows Server Core 2019\nServices: Active Directory & DNS"]
+   DC02 [description = "<$database_server>\n**DC02**\nIP: 172.16.1.13\nWindows Server Core 2019\nServices: Active Directory & DNS"]
+
+  }
+    }
+    
+    group domainComputers{
+    description = "Active Directory joined"
+    color = "aaF"
+    
+    MGMT01 [description = "<$database_server>\n**MGMT01**\nIP: 172.16.1.14\nWindows Server GUI 2019"];
+    WKS01 [description = "<$database_server>\n**WKS01**\nIP: 172.16.1.100-150\nWindows 10"];
+    WKS02 [description = "<$database_server>\n**WKS02**\nIP: 172.16.1.100-150\nWindows 10"];
+    DFS01 [description = "<$database_server>\n**DFS01**\nIP: 172.16.1.21\nWindows Server Core 2019\nServices: Redundant DFS"];
+    DFS02 [description = "<$database_server>\n**DFS02**\nIP: 172.16.1.22\nWindows Server Core 2019\nServices: Redundant DFS"];
+    UTIL01 [description = "<$database_server>\n**UTIL01**\nIP: 172.16.1.15\nCentOS 7"];
+  }
+  group notDomainJoined {
+    description = "Not domain joined"
+    DHCP01 [description = "<$database_server>\n**DHCP01**\nIP: 172.16.1.10\nCentOS 7\nServices: Redundant DHCP"];
+    DHCP02 [description = "<$database_server>\n**DHCP02**\nIP: 172.16.1.11\nCentOS 7\nServices: Redundant DHCP"];
+    DOCKER01 [description = "<$database_server>\n**DOCKER01**\nIP: 172.16.1.5\nUbuntu\nServices: Docker"];
+    MGMT02 [description = "<$database_server>\n**MGMT02**\nIP: 172.16.1.20\nUbuntu \nServices: Ansible"];
+  }
+  network bickenbugget.local-infrastructure{
+   DC01;
+   DC02;
+   MGMT01;
+   DFS01;
+   DFS02;
+   UTIL01;
+   DHCP01;
+   DHCP02;
+   MGMT02;
+   DOCKER01;
+}
+  network Redundant-DHCP{
+  address = "172.16.1.100-150/24;"
+  DHCP01;
+  DHCP02;
+  WKS01;
+  WKS02;
+  }
