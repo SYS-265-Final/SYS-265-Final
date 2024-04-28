@@ -1,6 +1,22 @@
 @startuml
 !include <office/Servers/application_server>
 !include <office/Servers/database_server>
+!include <office/Servers/database_server.puml>
+!include <office/Servers/application_server.puml>
+!include <office/Concepts/firewall_orange.puml>
+!include <office/Clouds/cloud_disaster_red.puml>
+!include <office/Servers/domain_controller.puml>
+!include <office/Servers/windows_server.puml>
+!include <office/Servers/file_server.puml>
+!include <office/Servers/reverse_proxy.puml>
+!include <office/Security/active_directory.puml>
+!include <office/Servers/active_directory_federation_services_server.puml>
+!include <office/Servers/server_generic.puml>
+!include <tupadr3/common>
+
+!define ICONURL https://raw.githubusercontent.com/Roemer/plantuml-office/master/office2014
+
+
 title Team Bicken Bugget's Network Diagram
 nwdiag {
   
@@ -11,16 +27,16 @@ nwdiag {
   address = "10.0.17.77/24"
   color = "#F00"
   }
-  
+
     
   group Firewall{
     color = "#ea0"
-    FW01 [description = "<$database_server>\n**FW01**\nWAN IP: 10.0.17.77\nLAN IP: 172.16.1.2\nServices: pfSense"]
+    FW01 [description = "<$firewall_orange>\n**FW01**\nWAN IP: 10.0.17.77\nLAN IP: 172.16.1.2\nServices: pfSense"]
   }
   
   network LAN{
   FW01;
-  bickenbugget.local
+  bickenbugget.local [description = "<$active_directory>\nbickenbugget.local"]
   address = "172.16.1.2/24"
   color = "#0F0"
   }
@@ -35,8 +51,8 @@ nwdiag {
   network Active-Directory-Controllers{
    color = "FFa"
    bickenbugget.local;
-   DC01 [description = "<$database_server>\n**DC01**\nIP: 172.16.1.12\nWindows Server Core 2019\nServices: Active Directory & DNS"]
-   DC02 [description = "<$database_server>\n**DC02**\nIP: 172.16.1.13\nWindows Server Core 2019\nServices: Active Directory & DNS"]
+   DC01 [description = "<$active_directory_federation_services_server>\n**DC01**\nIP: 172.16.1.12\nWindows Server Core 2019\nServices: Active Directory & DNS"]
+   DC02 [description = "<$active_directory_federation_services_server>\n**DC02**\nIP: 172.16.1.13\nWindows Server Core 2019\nServices: Active Directory & DNS"]
 
   }
     }
@@ -45,20 +61,22 @@ nwdiag {
     description = "Active Directory joined"
     color = "aaF"
     
-    MGMT01 [description = "<$database_server>\n**MGMT01**\nIP: 172.16.1.14\nWindows Server GUI 2019"];
-    WKS01 [description = "<$database_server>\n**WKS01**\nIP: 172.16.1.100-150\nWindows 10"];
-    WKS02 [description = "<$database_server>\n**WKS02**\nIP: 172.16.1.100-150\nWindows 10"];
-    DFS01 [description = "<$database_server>\n**DFS01**\nIP: 172.16.1.21\nWindows Server Core 2019\nServices: Redundant DFS"];
-    DFS02 [description = "<$database_server>\n**DFS02**\nIP: 172.16.1.22\nWindows Server Core 2019\nServices: Redundant DFS"];
-    UTIL01 [description = "<$database_server>\n**UTIL01**\nIP: 172.16.1.15\nCentOS 7"];
+    MGMT01 [description = "<$windows_server>\n**MGMT01**\nIP: 172.16.1.14\nWindows Server GUI 2019"];
+    WKS01 [description = "<$windows_server>\n**WKS01**\nIP: 172.16.1.100-150\nWindows 10"];
+    WKS02 [description = "<$windows_server>\n**WKS02**\nIP: 172.16.1.100-150\nWindows 10"];
+    DFS01 [description = "<$file_server>\n**DFS01**\nIP: 172.16.1.21\nWindows Server Core 2019\nServices: Redundant DFS"];
+    DFS02 [description = "<$file_server>\n**DFS02**\nIP: 172.16.1.22\nWindows Server Core 2019\nServices: Redundant DFS"];
+    UTIL01 [description = "<$server_generic>\n**UTIL01**\nIP: 172.16.1.15\nCentOS 7"];
+  
   }
   group notDomainJoined {
     description = "Not domain joined"
-    DHCP01 [description = "<$database_server>\n**DHCP01**\nIP: 172.16.1.10\nCentOS 7\nServices: Redundant DHCP"];
-    DHCP02 [description = "<$database_server>\n**DHCP02**\nIP: 172.16.1.11\nCentOS 7\nServices: Redundant DHCP"];
-    DOCKER01 [description = "<$database_server>\n**DOCKER01**\nIP: 172.16.1.5\nUbuntu\nServices: Docker"];
-    MGMT02 [description = "<$database_server>\n**MGMT02**\nIP: 172.16.1.20\nUbuntu \nServices: Ansible"];
+    DHCP01 [description = "<$reverse_proxy>\n**DHCP01**\nIP: 172.16.1.10\nCentOS 7\nServices: Redundant DHCP"];
+    DHCP02 [description = "<$reverse_proxy>\n**DHCP02**\nIP: 172.16.1.11\nCentOS 7\nServices: Redundant DHCP"];
+    DOCKER01 [description = "<$application_server>\n**DOCKER01**\nIP: 172.16.1.5\nUbuntu\nServices: Docker"];
+    MGMT02 [description = "<$application_server>\n**MGMT02**\nIP: 172.16.1.20\nUbuntu \nServices: Ansible"];
   }
+
   network bickenbugget.local-infrastructure{
    DC01;
    DC02;
@@ -72,6 +90,7 @@ nwdiag {
    DOCKER01;
 }
   network Redundant-DHCP{
+  color = "violet"
   address = "172.16.1.100-150/24;"
   DHCP01;
   DHCP02;
