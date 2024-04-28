@@ -1,14 +1,18 @@
-name: Create a new user called bob
-hosts: windows
-remote_user: bickenbuget/bickenbuget-adm
-
-tasks:
-  - name: Create a new domain user
-    microsoft_ad_user:
-      firstname: Test123
-      surname: User
-      password: abc123!
-      state: present
-      domain_username: bickenbuget/test123
-      domain_password: abc123!
-      domain_server: MGMT01@bickenbuget.local
+- name: Creates a new domain user with the name Test123
+  hosts: windows
+  become_method: runas
+  tasks:
+  - name: create a new domain user
+	microsoft.ad.user:
+  	identity: Test123
+  	firstname: Test
+  	surname: User
+  	password: abc123!
+  	state: present
+  	groups:
+    	set:
+    	- Domain Admins
+    	- Domain Users
+  	domain_username: bickenbugget-adm
+  	domain_password: abc123!
+  	domain_server: bickenbugget.local
